@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Temple Management System</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+<!-- ===== TOP NAV ===== -->
+<header id="main-header">
+  <div class="header-inner">
+    <div class="logo-area" id="logo-area">
+      <img src="" alt="Temple Logo" id="temple-logo" class="hidden" />
+      <div>
+        <h1 id="temple-name-header">🛕 Temple Management</h1>
+        <p id="temple-tagline-header" class="tagline"></p>
+      </div>
+    </div>
+    <nav id="main-nav">
+      <a href="#" class="nav-link public-link active" data-page="home">Home</a>
+      <a href="#" class="nav-link public-link" data-page="photos">Photos</a>
+      <a href="#" class="nav-link public-link" data-page="updates">Updates</a>
+      <a href="#" class="nav-link public-link" data-page="contact">Contact</a>
+
+      <!-- Logged-in links -->
+      <a href="#" class="nav-link auth-link hidden" data-page="dashboard">Dashboard</a>
+      <a href="#" class="nav-link auth-link hidden" data-page="finance">Finance</a>
+      <a href="#" class="nav-link auth-link hidden" data-page="transactions">Transactions</a>
+      <a href="#" class="nav-link auth-link hidden" data-page="reports">Reports</a>
+      <a href="#" class="nav-link auth-link admin-link hidden" data-page="users">Users</a>
+      <a href="#" class="nav-link auth-link admin-link hidden" data-page="master">Master</a>
+      <a href="#" class="nav-link auth-link admin-link hidden" data-page="permissions">Permissions</a>
+      <a href="#" class="nav-link auth-link admin-link hidden" data-page="homepage-edit">Edit Home</a>
+
+      <button id="login-btn" class="btn-gold" onclick="showPage('login')">Login</button>
+      <button id="logout-btn" class="btn-outline hidden" onclick="logout()">Logout</button>
+    </nav>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+  </div>
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="#" class="nav-link public-link" data-page="home" onclick="toggleMenu()">Home</a>
+    <a href="#" class="nav-link public-link" data-page="photos" onclick="toggleMenu()">Photos</a>
+    <a href="#" class="nav-link public-link" data-page="updates" onclick="toggleMenu()">Updates</a>
+    <a href="#" class="nav-link public-link" data-page="contact" onclick="toggleMenu()">Contact</a>
+    <a href="#" class="nav-link auth-link hidden" data-page="dashboard" onclick="toggleMenu()">Dashboard</a>
+    <a href="#" class="nav-link auth-link hidden" data-page="finance" onclick="toggleMenu()">Finance</a>
+    <a href="#" class="nav-link auth-link hidden" data-page="transactions" onclick="toggleMenu()">Transactions</a>
+    <a href="#" class="nav-link auth-link hidden" data-page="reports" onclick="toggleMenu()">Reports</a>
+    <a href="#" class="nav-link auth-link admin-link hidden" data-page="users" onclick="toggleMenu()">Users</a>
+    <a href="#" class="nav-link auth-link admin-link hidden" data-page="master" onclick="toggleMenu()">Master Settings</a>
+    <a href="#" class="nav-link auth-link admin-link hidden" data-page="permissions" onclick="toggleMenu()">Permissions</a>
+    <a href="#" class="nav-link auth-link admin-link hidden" data-page="homepage-edit" onclick="toggleMenu()">Edit Home</a>
+    <button id="login-btn-mob" class="btn-gold" onclick="showPage('login');toggleMenu()">Login</button>
+    <button id="logout-btn-mob" class="btn-outline hidden" onclick="logout();toggleMenu()">Logout</button>
+  </div>
+</header>
+
+<!-- ===== PAGES ===== -->
+<main id="app">
+
+  <!-- ===== HOME PAGE ===== -->
+  <section id="page-home" class="page active">
+
+    <!-- Photo Slider -->
+    <div class="slider-wrap">
+      <div class="slider" id="slider">
+        <div class="slide" style="background:linear-gradient(135deg,#b8860b,#8b0000)">
+          <div class="slide-text">
+            <h2 id="temple-name-slide">Temple Name</h2>
+            <p id="temple-tagline-slide">Welcome to Our Sacred Temple</p>
+          </div>
+        </div>
+      </div>
+      <button class="slide-btn prev" onclick="changeSlide(-1)">&#10094;</button>
+      <button class="slide-btn next" onclick="changeSlide(1)">&#10095;</button>
+      <div class="slide-dots" id="slide-dots"></div>
+    </div>
+
+    <!-- Info Strips -->
+    <div class="info-strip">
+      <div class="info-card" id="timing-card">
+        <i class="fas fa-clock"></i>
+        <div>
+          <strong>Temple Timings</strong>
+          <p id="home-timings">Loading...</p>
+        </div>
+      </div>
+      <div class="info-card">
+        <i class="fas fa-map-marker-alt"></i>
+        <div>
+          <strong>Location</strong>
+          <p id="home-address">Loading...</p>
+        </div>
+      </div>
+      <div class="info-card">
+        <i class="fas fa-phone"></i>
+        <div>
+          <strong>Contact</strong>
+          <p id="home-phone">Loading...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Latest Updates -->
+    <section class="section-block">
+      <h2 class="section-title"><i class="fas fa-bullhorn"></i> Latest Updates</h2>
+      <div id="updates-list" class="updates-grid">
+        <div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div>
+      </div>
+    </section>
+
+    <!-- Upcoming Festivals -->
+    <section class="section-block alt-bg">
+      <h2 class="section-title"><i class="fas fa-star-and-crescent"></i> Upcoming Festivals</h2>
+      <div id="festivals-list" class="festival-grid">
+        <div class="skeleton-card"></div><div class="skeleton-card"></div>
+      </div>
+    </section>
+
+    <!-- Google Map -->
+    <section class="section-block">
+      <h2 class="section-title"><i class="fas fa-map"></i> Find Us</h2>
+      <div id="map-container" class="map-box">
+        <p class="map-placeholder"><i class="fas fa-map-marker-alt"></i><br/>Map will load here.<br/>Set your Google Map link in Settings sheet.</p>
+      </div>
+    </section>
+
+    <!-- Donation QR -->
+    <section class="section-block alt-bg donation-section">
+      <h2 class="section-title"><i class="fas fa-hand-holding-heart"></i> Support Our Temple</h2>
+      <div id="qr-area" class="qr-wrap">
+        <p id="donation-upi" class="upi-text"></p>
+        <img id="qr-img" src="" alt="Donation QR" class="hidden qr-img" />
+        <p class="small-note">Scan to donate via UPI / GPay / PhonePe</p>
+      </div>
+    </section>
+
+  </section>
+
+  <!-- ===== PHOTOS PAGE ===== -->
+  <section id="page-photos" class="page hidden">
+    <div class="page-header"><h2>Temple Photos</h2></div>
+    <div id="photos-grid" class="photos-grid">
+      <div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div>
+    </div>
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox hidden" onclick="closeLightbox()">
+      <span class="lb-close">&times;</span>
+      <img id="lb-img" src="" alt="" />
+      <p id="lb-caption"></p>
+    </div>
+  </section>
+
+  <!-- ===== UPDATES PAGE ===== -->
+  <section id="page-updates" class="page hidden">
+    <div class="page-header"><h2>Latest Updates</h2></div>
+    <div id="updates-full" class="updates-grid"></div>
+  </section>
+
+  <!-- ===== CONTACT PAGE ===== -->
+  <section id="page-contact" class="page hidden">
+    <div class="page-header"><h2>Contact Us</h2></div>
+    <div class="contact-wrap">
+      <div class="contact-card">
+        <i class="fas fa-map-marker-alt fa-2x"></i>
+        <h3>Address</h3>
+        <p id="contact-address">Loading...</p>
+      </div>
+      <div class="contact-card">
+        <i class="fas fa-phone fa-2x"></i>
+        <h3>Phone</h3>
+        <p id="contact-phone">Loading...</p>
+      </div>
+      <div class="contact-card">
+        <i class="fas fa-envelope fa-2x"></i>
+        <h3>Email</h3>
+        <p id="contact-email">Loading...</p>
+      </div>
+      <div class="contact-card">
+        <i class="fab fa-whatsapp fa-2x"></i>
+        <h3>WhatsApp</h3>
+        <p id="contact-whatsapp">Loading...</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== LOGIN PAGE ===== -->
+  <section id="page-login" class="page hidden">
+    <div class="auth-box">
+      <div class="auth-logo">🛕</div>
+      <h2>Login</h2>
+      <p class="auth-sub">Admin &amp; User Access</p>
+      <div id="login-error" class="alert-error hidden"></div>
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="login-user" placeholder="Enter username" />
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <div class="pass-wrap">
+          <input type="password" id="login-pass" placeholder="Enter password" onkeyup="if(event.key==='Enter')doLogin()" />
+          <span onclick="togglePass('login-pass',this)"><i class="fas fa-eye"></i></span>
+        </div>
+      </div>
+      <button class="btn-gold full-width" onclick="doLogin()">Login</button>
+      <p class="back-link"><a href="#" onclick="showPage('home')">← Back to Home</a></p>
+    </div>
+  </section>
+
+  <!-- ===== DASHBOARD PAGE ===== -->
+  <section id="page-dashboard" class="page hidden">
+    <div class="page-header">
+      <h2>Dashboard</h2>
+      <p>Welcome, <span id="dash-username"></span> (<span id="dash-role"></span>)</p>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-card gold">
+        <i class="fas fa-rupee-sign"></i>
+        <div><strong id="stat-today">₹0</strong><span>Today's Collection</span></div>
+      </div>
+      <div class="stat-card blue">
+        <i class="fas fa-calendar-alt"></i>
+        <div><strong id="stat-month">₹0</strong><span>Monthly Collection</span></div>
+      </div>
+      <div class="stat-card green">
+        <i class="fas fa-piggy-bank"></i>
+        <div><strong id="stat-total">₹0</strong><span>Total Collection</span></div>
+      </div>
+      <div class="stat-card red">
+        <i class="fas fa-arrow-trend-down"></i>
+        <div><strong id="stat-expense">₹0</strong><span>Total Expenses</span></div>
+      </div>
+      <div class="stat-card teal">
+        <i class="fas fa-wallet"></i>
+        <div><strong id="stat-balance">₹0</strong><span>Balance</span></div>
+      </div>
+    </div>
+    <div class="section-block">
+      <h3 class="section-title">Recent Transactions</h3>
+      <div class="table-wrap">
+        <table id="recent-txn-table">
+          <thead><tr><th>Receipt</th><th>Date</th><th>Name</th><th>Category</th><th>Amount</th><th>Payment</th></tr></thead>
+          <tbody id="recent-txn-body"><tr><td colspan="6" class="loading-td">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FINANCE ENTRY PAGE ===== -->
+  <section id="page-finance" class="page hidden">
+    <div class="page-header"><h2>Finance Entry</h2></div>
+    <div class="form-card">
+      <div id="finance-msg" class="hidden"></div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Date *</label>
+          <input type="date" id="f-date" />
+        </div>
+        <div class="form-group">
+          <label>Receipt No</label>
+          <input type="text" id="f-receipt" readonly class="readonly-field" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Name *</label>
+          <input type="text" id="f-name" placeholder="Donor / Party Name" />
+        </div>
+        <div class="form-group">
+          <label>Area</label>
+          <input type="text" id="f-area" placeholder="Area / Town" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Category *</label>
+          <select id="f-category"><option value="">Select Category</option></select>
+        </div>
+        <div class="form-group">
+          <label>Amount (₹) *</label>
+          <input type="number" id="f-amount" placeholder="0.00" min="0" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Payment Type *</label>
+          <select id="f-payment"><option value="">Select Type</option></select>
+        </div>
+        <div class="form-group">
+          <label>WhatsApp Number</label>
+          <input type="tel" id="f-whatsapp" placeholder="10-digit number" maxlength="10" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Remarks</label>
+        <textarea id="f-remarks" rows="2" placeholder="Optional notes..."></textarea>
+      </div>
+      <div class="form-actions">
+        <button class="btn-gold" onclick="saveFinance()"><i class="fas fa-save"></i> Save</button>
+        <button class="btn-outline" onclick="resetFinance()"><i class="fas fa-undo"></i> Reset</button>
+        <button class="btn-whatsapp hidden" id="send-wa-btn" onclick="sendWhatsApp()"><i class="fab fa-whatsapp"></i> Send Receipt</button>
+      </div>
+      <!-- Print Receipt -->
+      <div id="receipt-box" class="receipt-box hidden">
+        <div class="receipt-header">🛕 <span id="r-temple"></span></div>
+        <h3>Donation Receipt</h3>
+        <table class="receipt-table">
+          <tr><td>Receipt No</td><td id="r-no"></td></tr>
+          <tr><td>Date</td><td id="r-date"></td></tr>
+          <tr><td>Name</td><td id="r-name"></td></tr>
+          <tr><td>Category</td><td id="r-cat"></td></tr>
+          <tr><td>Amount</td><td id="r-amount"></td></tr>
+          <tr><td>Payment</td><td id="r-pay"></td></tr>
+          <tr><td>Entered By</td><td id="r-by"></td></tr>
+        </table>
+        <p class="receipt-bless">🙏 Thank you for your contribution. May God Bless You. 🙏</p>
+        <button class="btn-outline" onclick="printReceipt()"><i class="fas fa-print"></i> Print</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TRANSACTIONS PAGE ===== -->
+  <section id="page-transactions" class="page hidden">
+    <div class="page-header"><h2>Transactions</h2></div>
+
+    <!-- Filters -->
+    <div class="filter-bar">
+      <input type="date" id="filter-from" placeholder="From Date" />
+      <input type="date" id="filter-to" placeholder="To Date" />
+      <input type="text" id="filter-name" placeholder="Search Name..." />
+      <select id="filter-cat"><option value="">All Categories</option></select>
+      <select id="filter-pay"><option value="">All Payments</option></select>
+      <button class="btn-gold" onclick="applyFilters()"><i class="fas fa-filter"></i> Filter</button>
+      <button class="btn-outline" onclick="clearFilters()">Clear</button>
+    </div>
+
+    <div class="table-wrap">
+      <table id="txn-table">
+        <thead>
+          <tr>
+            <th>Receipt</th><th>Date</th><th>Name</th><th>Area</th>
+            <th>Category</th><th>Amount</th><th>Payment</th><th>WhatsApp</th>
+            <th>Remarks</th><th>By</th><th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="txn-body"><tr><td colspan="11" class="loading-td">Loading...</td></tr></tbody>
+      </table>
+    </div>
+    <div class="pagination" id="txn-pagination"></div>
+  </section>
+
+  <!-- ===== REPORTS PAGE ===== -->
+  <section id="page-reports" class="page hidden">
+    <div class="page-header"><h2>Reports</h2></div>
+    <div class="report-grid">
+      <div class="report-card" onclick="generateReport('daily')">
+        <i class="fas fa-calendar-day fa-2x"></i>
+        <h3>Daily Collection</h3>
+        <p>Today's income summary</p>
+      </div>
+      <div class="report-card" onclick="generateReport('monthly')">
+        <i class="fas fa-calendar-alt fa-2x"></i>
+        <h3>Monthly Collection</h3>
+        <p>Month-wise totals</p>
+      </div>
+      <div class="report-card" onclick="generateReport('yearly')">
+        <i class="fas fa-calendar fa-2x"></i>
+        <h3>Yearly Collection</h3>
+        <p>Annual summary</p>
+      </div>
+      <div class="report-card" onclick="generateReport('category')">
+        <i class="fas fa-tags fa-2x"></i>
+        <h3>Category-wise</h3>
+        <p>By donation type</p>
+      </div>
+      <div class="report-card" onclick="generateReport('payment')">
+        <i class="fas fa-credit-card fa-2x"></i>
+        <h3>Payment-wise</h3>
+        <p>Cash / UPI / Bank</p>
+      </div>
+      <div class="report-card" onclick="generateReport('area')">
+        <i class="fas fa-map-pin fa-2x"></i>
+        <h3>Area-wise</h3>
+        <p>By area / location</p>
+      </div>
+      <div class="report-card" onclick="generateReport('user')">
+        <i class="fas fa-user-check fa-2x"></i>
+        <h3>User-wise</h3>
+        <p>Entries by each user</p>
+      </div>
+      <div class="report-card" onclick="generateReport('balance')">
+        <i class="fas fa-balance-scale fa-2x"></i>
+        <h3>Balance Summary</h3>
+        <p>Income vs Expense</p>
+      </div>
+    </div>
+    <div id="report-output" class="report-output hidden">
+      <div class="report-actions">
+        <button class="btn-gold" onclick="downloadExcel()"><i class="fas fa-file-excel"></i> Excel</button>
+        <button class="btn-outline" onclick="downloadPDF()"><i class="fas fa-file-pdf"></i> PDF</button>
+      </div>
+      <div class="table-wrap"><table id="report-table"><thead id="report-head"></thead><tbody id="report-body"></tbody></table></div>
+    </div>
+  </section>
+
+  <!-- ===== USER MANAGEMENT (ADMIN) ===== -->
+  <section id="page-users" class="page hidden">
+    <div class="page-header">
+      <h2>User Management</h2>
+      <button class="btn-gold" onclick="openUserModal()"><i class="fas fa-user-plus"></i> Add User</button>
+    </div>
+    <div class="table-wrap">
+      <table id="users-table">
+        <thead><tr><th>Username</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="users-body"><tr><td colspan="4" class="loading-td">Loading...</td></tr></tbody>
+      </table>
+    </div>
+    <!-- User Modal -->
+    <div id="user-modal" class="modal hidden">
+      <div class="modal-box">
+        <h3 id="user-modal-title">Add User</h3>
+        <input type="hidden" id="um-index" />
+        <div class="form-group"><label>Username</label><input type="text" id="um-username" /></div>
+        <div class="form-group"><label>Password</label><input type="password" id="um-password" /></div>
+        <div class="form-group"><label>Role</label>
+          <select id="um-role"><option value="user">User</option><option value="admin">Admin</option></select>
+        </div>
+        <div class="form-group"><label>Status</label>
+          <select id="um-status"><option value="active">Active</option><option value="inactive">Inactive</option></select>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-gold" onclick="saveUser()">Save</button>
+          <button class="btn-outline" onclick="closeModal('user-modal')">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MASTER SETTINGS (ADMIN) ===== -->
+  <section id="page-master" class="page hidden">
+    <div class="page-header"><h2>Master Settings</h2></div>
+    <div class="master-grid">
+      <!-- Categories -->
+      <div class="master-card">
+        <h3><i class="fas fa-tags"></i> Categories</h3>
+        <ul id="cat-list" class="master-list"></ul>
+        <div class="master-add">
+          <input type="text" id="cat-input" placeholder="New category..." />
+          <button class="btn-gold" onclick="addMasterItem('Categories','cat-input','cat-list')">Add</button>
+        </div>
+      </div>
+      <!-- Payment Types -->
+      <div class="master-card">
+        <h3><i class="fas fa-credit-card"></i> Payment Types</h3>
+        <ul id="pay-list" class="master-list"></ul>
+        <div class="master-add">
+          <input type="text" id="pay-input" placeholder="New payment type..." />
+          <button class="btn-gold" onclick="addMasterItem('PaymentTypes','pay-input','pay-list')">Add</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PERMISSIONS (ADMIN) ===== -->
+  <section id="page-permissions" class="page hidden">
+    <div class="page-header"><h2>Permission Control</h2></div>
+    <div class="table-wrap">
+      <table id="perm-table">
+        <thead>
+          <tr><th>User</th><th>Home Edit</th><th>Finance</th><th>Reports</th><th>Downloads</th><th>Save</th></tr>
+        </thead>
+        <tbody id="perm-body"><tr><td colspan="6" class="loading-td">Loading...</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== EDIT HOME PAGE (ADMIN/ALLOWED USER) ===== -->
+  <section id="page-homepage-edit" class="page hidden">
+    <div class="page-header"><h2>Edit Home Page</h2></div>
+    <div class="form-card">
+      <div class="form-group"><label>Temple Name</label><input type="text" id="he-name" /></div>
+      <div class="form-group"><label>Tagline</label><input type="text" id="he-tagline" /></div>
+      <div class="form-group"><label>Temple Timings</label><textarea id="he-timings" rows="3"></textarea></div>
+      <div class="form-group"><label>Address</label><textarea id="he-address" rows="3"></textarea></div>
+      <div class="form-group"><label>Phone</label><input type="text" id="he-phone" /></div>
+      <div class="form-group"><label>Email</label><input type="email" id="he-email" /></div>
+      <div class="form-group"><label>WhatsApp</label><input type="text" id="he-whatsapp" /></div>
+      <div class="form-group"><label>Google Map Embed URL</label><input type="text" id="he-mapurl" /></div>
+      <div class="form-group"><label>Logo URL (Google Drive)</label><input type="text" id="he-logo" /></div>
+      <div class="form-group"><label>Donation UPI ID</label><input type="text" id="he-upi" /></div>
+      <div class="form-group"><label>QR Code Image URL</label><input type="text" id="he-qr" /></div>
+      <div class="form-group"><label>Latest Update 1</label><input type="text" id="he-upd1" /></div>
+      <div class="form-group"><label>Latest Update 2</label><input type="text" id="he-upd2" /></div>
+      <div class="form-group"><label>Latest Update 3</label><input type="text" id="he-upd3" /></div>
+      <div class="form-group"><label>Festival 1 (Name | Date)</label><input type="text" id="he-fes1" placeholder="Pongal | 14 Jan 2026" /></div>
+      <div class="form-group"><label>Festival 2 (Name | Date)</label><input type="text" id="he-fes2" /></div>
+      <div class="form-group"><label>Photo URL 1</label><input type="text" id="he-p1" /></div>
+      <div class="form-group"><label>Photo URL 2</label><input type="text" id="he-p2" /></div>
+      <div class="form-group"><label>Photo URL 3</label><input type="text" id="he-p3" /></div>
+      <div class="form-group"><label>Slider Photo URL 1</label><input type="text" id="he-s1" /></div>
+      <div class="form-group"><label>Slider Photo URL 2</label><input type="text" id="he-s2" /></div>
+      <button class="btn-gold" onclick="saveHomePage()"><i class="fas fa-save"></i> Save All Settings</button>
+      <div id="he-msg" class="hidden"></div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <p id="footer-name">Temple Management System</p>
+  <p class="footer-small">Powered by Google Sheets &amp; GitHub Pages | 100% Free</p>
+</footer>
+
+<!-- ===== TOAST ===== -->
+<div id="toast" class="toast hidden"></div>
+
+<script src="config.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
