@@ -16,7 +16,7 @@ const CONFIG = {
   // ----------------------------------------------------------
   // 2. TEMPLE INFO (shown before Google Sheet loads)
   // ----------------------------------------------------------
-  TEMPLE_NAME:    "Sri Temple",
+  TEMPLE_NAME:    "Sri Vasiamman Temple",
   TEMPLE_TAGLINE: "A Sacred Place of Worship",
 
   // ----------------------------------------------------------
