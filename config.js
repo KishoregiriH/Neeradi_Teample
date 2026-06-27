@@ -11,7 +11,7 @@ const CONFIG = {
   //    paste the URL here.
   //    Example: "https://script.google.com/macros/s/AKfyc.../exec"
   // ----------------------------------------------------------
-  SCRIPT_URL: "https://script.google.com/macros/s/AKfycbyGq4wN9zZD36DYyjkgj8U36YbLNVLt9TCxrO-mArofdgnq7h7FU3Wr6OdfEzord4Xw/exec",
+  SCRIPT_URL: "https://script.google.com/macros/s/AKfycbylXMhLjfTfyIPgE_RCaf2CXFdiAqkMUYymnm0XfmFCK6K6eil7dot3XuLotXF9cKYF/exec",
 
   // ----------------------------------------------------------
   // 2. TEMPLE INFO (shown before Google Sheet loads)
